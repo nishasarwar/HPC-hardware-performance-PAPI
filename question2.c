@@ -31,16 +31,17 @@ int main(int argc, char** argv)
 
     PAPI_hl_region_end("initialize");
 
-    // PAPI_hl_region_begin("multiply");
+    PAPI_hl_region_begin("multiply");
 
-    // IMPLEMENT YOUR MATRIX-MATRIX MULTIPLY HERE
-    //
-    // You should have three loops that end up implementing the following pseudo-code
-    //
-    // ```
-    // for (i,j,k)
-    //     C[i,j] += A[i,k] * B[k,j]
-    // ```
+    // IMPLEMENTING MATRIX-MATRIX MULTIPLY HERE
+    
+    for (int i = 0; i < M; ++i){
+        for (int j = 0; j < N; ++j){
+            for (int k = 0; k < O; ++k){
+                C[i + j * M] += A[i + k * M] * B[k + j * O];
+            }
+        }
+    }
 
     PAPI_hl_region_end("multiply");
 
