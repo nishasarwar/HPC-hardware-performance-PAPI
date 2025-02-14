@@ -1,10 +1,10 @@
 #!/bin/bash
 
-PAPI_OUTPUT_DIR="/N/u/nsarwar/Quartz/git-repository/High-Performance-Computing/papi_output_row_major"
+PAPI_OUTPUT_DIR="/N/u/nsarwar/Quartz/git-repository/High-Performance-Computing/papi_output_col_major"
 
 EXECUTABLE="./exec"  # Change this if necessary
 
-echo "Loop Order, Matrix Size, PAPI_FP_OPS, Cache Misses" > RM_results.txt
+echo "Loop Order, Matrix Size, PAPI_FP_OPS, Cache Misses" > CM_results.txt
 
 for size in {10..100..10}; do
     echo "Running matrix multiplication for size $size ..."
@@ -19,8 +19,9 @@ for size in {10..100..10}; do
         PAPI_FP_OPS=$(jq -r ".threads.\"0\".regions | to_entries[] | select(.value.name == \"$order\") | .value.PAPI_FP_OPS" "$latest_json")
         CACHE_MISSES=$(jq -r ".threads.\"0\".regions | to_entries[] | select(.value.name == \"$order\") | .value[\"PERF_COUNT_HW_CACHE_L1D:MISS\"]" "$latest_json")
 
-        echo "$order, $size, $PAPI_FP_OPS, $CACHE_MISSES" >> RM_results.txt
+        echo "$order, $size, $PAPI_FP_OPS, $CACHE_MISSES" >> CM_results.txt
     done
 done
 
-echo "Experiment completed. Results saved in RM_results.txt"
+echo "Experiment completed. Results saved in CM_results.txt"
+
