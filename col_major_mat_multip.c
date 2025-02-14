@@ -32,7 +32,7 @@ int main(int argc, char** argv)
     PAPI_hl_region_end("initialize");
 
     // 1. Loop Order: IJK
-    PAPI_hl_region_begin("loop ijk");
+    PAPI_hl_region_begin("ijk");
     for (int i = 0; i < M; ++i) {
         for (int j = 0; j < N; ++j) {
             for (int k = 0; k < O; ++k) {
@@ -40,10 +40,10 @@ int main(int argc, char** argv)
             }
         }
     }
-    PAPI_hl_region_end("loop ijk");
+    PAPI_hl_region_end("ijk");
 
     // 2. Loop Order: IKJ
-    PAPI_hl_region_begin("loop ikj");
+    PAPI_hl_region_begin("ikj");
     for (int i = 0; i < M; ++i) {
         for (int k = 0; k < O; ++k) {
             for (int j = 0; j < N; ++j) {
@@ -51,10 +51,10 @@ int main(int argc, char** argv)
             }
         }
     }
-    PAPI_hl_region_end("loop ikj");
+    PAPI_hl_region_end("ikj");
 
     // 3. Loop Order: JIK
-    PAPI_hl_region_begin("loop jik");
+    PAPI_hl_region_begin("jik");
     for (int j = 0; j < N; ++j) {
         for (int i = 0; i < M; ++i) {
             for (int k = 0; k < O; ++k) {
@@ -62,10 +62,10 @@ int main(int argc, char** argv)
             }
         }
     }
-    PAPI_hl_region_end("loop jik");
+    PAPI_hl_region_end("jik");
 
     // 4. Loop Order: JKI
-    PAPI_hl_region_begin("loop jki");
+    PAPI_hl_region_begin("jki");
     for (int j = 0; j < N; ++j) {
         for (int k = 0; k < O; ++k) {
             for (int i = 0; i < M; ++i) {
@@ -73,10 +73,10 @@ int main(int argc, char** argv)
             }
         }
     }
-    PAPI_hl_region_end("loop jki");
+    PAPI_hl_region_end("jki");
 
     // 5. Loop Order: KIJ
-    PAPI_hl_region_begin("loop kij");
+    PAPI_hl_region_begin("kij");
     for (int k = 0; k < O; ++k) {
         for (int i = 0; i < M; ++i) {
             for (int j = 0; j < N; ++j) {
@@ -84,10 +84,10 @@ int main(int argc, char** argv)
             }
         }
     }
-    PAPI_hl_region_end("loop kij");
+    PAPI_hl_region_end("kij");
 
     // 6. Loop Order: KJI
-    PAPI_hl_region_begin("loop kji");
+    PAPI_hl_region_begin("kji");
     for (int k = 0; k < O; ++k) {
         for (int j = 0; j < N; ++j) {
             for (int i = 0; i < M; ++i) {
@@ -95,7 +95,7 @@ int main(int argc, char** argv)
             }
         }
     }
-    PAPI_hl_region_end("loop kji");
+    PAPI_hl_region_end("kji");
 
     do_not_optimize(C);
 
