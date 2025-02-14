@@ -1,0 +1,26 @@
+#!/bin/bash
+
+PAPI_OUTPUT_DIR="/N/u/nsarwar/Quartz/git-repository/High-Performance-Computing/PAPI output"
+
+EXECUTABLE="./exec"  # Change this if necessary
+
+echo "Loop Order, Matrix Size, PAPI_FP_OPS, Cache Misses" > results.txt
+
+for size in {10..100..10}; do
+    echo "Running matrix multiplication for size $size ..."
+
+    srun timeout 60s "$EXECUTABLE" $size $size $size
+
+    latest_dir=$(ls -td "$PAPI_OUTPUT_DIR"/*/ | head -1)
+    latest_json=$(ls -t "$latest_dir"/*.json | head -1)
+
+    # Loop through all loop orders
+    for order in "ijk" "ikj" "jik" "jki" "kij" "kji"; do
+        PAPI_FP_OPS=$(jq -r ".threads.\"0\".regions | to_entries[] | select(.value.name == \"$order\") | .value.PAPI_FP_OPS" "$latest_json")
+        CACHE_MISSES=$(jq -r ".threads.\"0\".regions | to_entries[] | select(.value.name == \"$order\") | .value[\"PERF_COUNT_HW_CACHE_L1D:MISS\"]" "$latest_json")
+
+        echo "$order, $size, $PAPI_FP_OPS, $CACHE_MISSES" >> results.txt
+    done
+done
+
+echo "Experiment completed. Results saved in results.txt"
